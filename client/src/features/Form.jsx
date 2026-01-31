@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import toast from 'react-hot-toast';
 
 const Form = () => {
 
@@ -12,6 +13,8 @@ const Form = () => {
       const response = await axios.post("http://localhost:3000/api/create", {
         nameField
       });
+      setNameField("");
+      toast.success(response.data.message);
       console.log(response);
     }
     catch(err){
