@@ -49,6 +49,26 @@ app.put("/api/updateuser/:id", async(req, res) => {
 })
 
 
+app.delete("/api/deleteuser/:id", async(req, res) => {
+    try{
+        await User.deleteOne({_id: req.params.id});
+        res.status(200).send({message: "User deleted successfully"});
+    }
+    catch(err){
+        console.log("Error deleting data", err);
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
 
 
 app.post("/api/product/create",async(req,res)=>{

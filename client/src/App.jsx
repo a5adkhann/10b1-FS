@@ -5,6 +5,7 @@ import GetUsers from './pages/GetUsers'
 import CreateUser from './pages/CreateUser'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import CreateProduct from './pages/CreateProduct'
+import AddImage from './pages/AddImage'
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
             <Routes>
                   <Route path="/" element={<GetUsers/>}></Route>
                   <Route path="/create" element={<CreateUser/>}></Route>
+                  <Route path="/upload" element={<AddImage/>}></Route>
                   <Route path="/product" element={<CreateProduct/>}></Route>
             </Routes>
 

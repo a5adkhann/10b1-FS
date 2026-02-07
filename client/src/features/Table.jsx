@@ -44,9 +44,23 @@ const Table = () => {
     }
   }
 
+  const handleDelete = async(id) => {
+    try{
+      const response = await axios.delete(`http://localhost:3000/api/deleteuser/${id}`);
+      console.log(response);
+      setUsersData([]);
+      toast.success(response.data.message);
+    }
+    catch(err){
+      console.log("Error deleting data", err);
+    }
+  }
+
   return (
     <>
       <div className="overflow-x-auto w-[600px] justify-self-center py-24">
+
+        {usersData.length > 0 ? 
         <table className="table table-zebra">
           {/* head */}
           <thead>
@@ -77,7 +91,7 @@ const Table = () => {
                 :
                 <>
                 <button onClick={() => handleEdit(u)} className="btn btn-soft btn-info">Edit</button>
-                <button className="btn btn-soft btn-error">Delete</button>
+                <button className="btn btn-soft btn-error" onClick={() => handleDelete(u._id)}>Delete</button>
                 </>
 }
               </td>
@@ -86,6 +100,10 @@ const Table = () => {
           
           </tbody>
         </table>
+        :
+        <p className='text-center text-red-600'>No users found...</p>
+          }
+
       </div>
     </>
   )
