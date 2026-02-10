@@ -2,13 +2,31 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db_connection");
 const User = require("./models/users");
+const File = require("./models/files");
+const multer = require("multer");
 const Product = require("./models/product");
+const path = require("path");
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
 connectDB();
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads')
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+})
+
+const upload = multer({ storage: storage })
+
+
 
 
 app.post("/api/create", async(req, res) => {
@@ -22,6 +40,20 @@ app.post("/api/create", async(req, res) => {
         console.log(err);
     }
 })
+
+
+app.post("/api/fileupload", upload.single("myImage"), async(req, res) => {
+    try{
+        const { filename } = req.file;
+        await File.insertOne({image: filename});
+        res.status(200).send({message: "File Uploaded Successfully"});
+    }
+    catch(err){
+        console.log("Error Uploading File", err);
+    }
+})
+
+
 
 app.get("/api/users", async(req, res) => {
     try{
