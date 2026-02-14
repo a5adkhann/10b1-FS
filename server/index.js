@@ -53,6 +53,16 @@ app.post("/api/fileupload", upload.single("myImage"), async(req, res) => {
     }
 })
 
+app.get("/api/getmyfiles", async(req, res) => {
+    try{
+        const files = await File.find();
+        res.status(200).send({files});
+    }
+    catch(err){
+        console.log("Error Fetching Files", err);
+    }
+})
+
 
 
 app.get("/api/users", async(req, res) => {
